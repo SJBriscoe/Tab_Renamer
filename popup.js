@@ -6,21 +6,37 @@ const status = document.querySelector("#status");
 
 let activeTab;
 
+function isProtectedTab(tab) {
+  return /^(about|moz-extension|resource|view-source):/.test(tab.url || "") || /\.pdf(?:$|[?#])/i.test(tab.url || "");
+}
+
 function updateCount() {
   count.textContent = `${input.value.length}/80`;
 }
 
-function showStatus(message) {
+function showStatus(message, persistent = false) {
   status.textContent = message;
-  window.setTimeout(() => {
-    status.textContent = "";
-  }, 2200);
+  status.classList.toggle("protected", persistent);
+  if (!persistent) {
+    window.setTimeout(() => {
+      status.textContent = "";
+      status.classList.remove("protected");
+    }, 2200);
+  }
 }
 
 async function loadActiveTab() {
   [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
   if (!activeTab) {
     input.disabled = true;
+    return;
+  }
+
+  if (isProtectedTab(activeTab)) {
+    input.disabled = true;
+    input.placeholder = "This tab cannot be renamed";
+    form.querySelector("button").disabled = true;
+    resetButton.disabled = true;
     return;
   }
 
@@ -37,8 +53,8 @@ form.addEventListener("submit", async (event) => {
   const title = input.value.trim();
   if (!title || !activeTab) return;
 
-  await browser.runtime.sendMessage({ type: "rename-tab", tabId: activeTab.id, title });
-  showStatus("Tab renamed");
+  const result = await browser.runtime.sendMessage({ type: "rename-tab", tabId: activeTab.id, title });
+  showStatus(result?.applied ? "Tab renamed" : "This tab cannot be renamed");
 });
 
 resetButton.addEventListener("click", async () => {

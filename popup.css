@@ -93,6 +93,18 @@ input:focus {
   box-shadow: 0 0 0 3px #dcecae;
 }
 
+input:disabled {
+  border-color: #d5d9d5;
+  background: #e6e9e5;
+  color: #8b938d;
+  cursor: not-allowed;
+}
+
+input:disabled::placeholder {
+  color: #737b75;
+  opacity: 1;
+}
+
 #character-count {
   position: absolute;
   top: 18px;
@@ -128,6 +140,14 @@ button {
 .primary-button:active { transform: translateY(1px); }
 .primary-button span { color: var(--lime); font-size: 18px; }
 
+.primary-button:disabled,
+.reset-button:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.primary-button:disabled:hover { background: var(--ink); }
+
 .reset-button {
   display: block;
   margin: 17px auto 0;
@@ -147,4 +167,8 @@ button {
   font-family: 'Courier New', monospace;
   font-size: 10px;
   text-align: center;
+}
+
+.status.protected {
+  color: #9a5b26;
 }

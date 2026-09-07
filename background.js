@@ -7,8 +7,10 @@ function titleScript(title) {
 async function applyTitle(tabId, title) {
   try {
     await browser.tabs.executeScript(tabId, { code: titleScript(title) });
+    return true;
   } catch (error) {
     console.debug(`Tab Renamer could not update tab ${tabId}.`, error);
+    return false;
   }
 }
 
@@ -23,9 +25,12 @@ browser.runtime.onMessage.addListener(async (message) => {
   if (message.type === "rename-tab" && Number.isInteger(message.tabId)) {
     const title = message.title.trim();
     if (title) {
-      renamedTabs.set(message.tabId, title);
-      await browser.storage.local.set({ renamedTabs: Object.fromEntries(renamedTabs) });
-      await applyTitle(message.tabId, title);
+      const applied = await applyTitle(message.tabId, title);
+      if (applied) {
+        renamedTabs.set(message.tabId, title);
+        await browser.storage.local.set({ renamedTabs: Object.fromEntries(renamedTabs) });
+      }
+      return { applied };
     }
   }
 
