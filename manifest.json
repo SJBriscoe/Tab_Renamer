@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Tab Renamer",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "Rename Tabs",
     "permissions": [
         "tabs",

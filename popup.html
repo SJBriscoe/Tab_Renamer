@@ -1,29 +1,30 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tab Renamer</title>
-  <link rel="stylesheet" href="popup.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tab Renamer</title>
+    <link rel="stylesheet" href="popup.css">
 </head>
+
 <body>
-  <main class="panel">
-    <!-- <div class="eyebrow"><span class="mark"></span>Tab Renamer</div> -->
-    <h1>Give this tab a name.</h1>
-    <!-- <p class="description">A private label for the tab you are looking at.</p> -->
+    <main class="panel">
+        <h1>Give this tab a name.</h1>
 
-    <form id="rename-form">
-      <!-- <label for="tab-name">Tab name</label> -->
-      <div class="input-row">
-        <input id="tab-name" name="tab-name" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Research notes" required>
-        <span id="character-count" aria-live="polite">0/80</span>
-      </div>
-      <button class="primary-button" type="submit">Rename tab <span aria-hidden="true">↗</span></button>
-    </form>
+        <form id="rename-form">
+            <div class="input-row">
+                <input id="tab-name" name="tab-name" type="text" maxlength="80" autocomplete="off"
+                    placeholder="e.g. Research notes" required>
+                <span id="character-count" aria-live="polite">0/80</span>
+            </div>
+            <button class="primary-button" type="submit">Rename tab <span aria-hidden="true">↗</span></button>
+        </form>
 
-    <button id="reset-button" class="reset-button" type="button">Reset to page title</button>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
-  </main>
-  <script src="popup.js"></script>
+        <button id="reset-button" class="reset-button" type="button">Reset to page title</button>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+    </main>
+    <script src="popup.js"></script>
 </body>
+
 </html>
